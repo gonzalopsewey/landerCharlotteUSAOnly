@@ -51,49 +51,51 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bdc-bigdatacloud-reverse-geocode@1.1.0/dist/bdc-bigdatacloud-reverse-geocode.min.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      getReverseGeocode(); // Call the getReverseGeocode function to fetch the user's location
-    });
-  
-    var result2 = document.getElementById("city");
-    var result3 = document.getElementById("city2");
-  
-    function getReverseGeocode() {
-      fetch("https://api.bigdatacloud.net/data/reverse-geocode-client")
-        .then(response => response.json())
-        .then(result => {
-          console.log(result);
-          result2.innerHTML = result.city || "Unknown";
-          result3.innerHTML = result.city || "Unknown";
-          document.getElementById("current-date").innerHTML = getCurrentDate();
-  
-          // Explicitly call the hiding logic after fetching the location
-          hideContentIfNotUSA(result.country.isoAlpha2);
-        })
-        .catch(error => {
-          console.log(error);
-          result2.innerHTML = "Failed to retrieve location";
-          result3.innerHTML = "Failed to retrieve location";
-          // Explicitly call the hiding logic with a fallback value
-          hideContentIfNotUSA("unknown");
-        });
-    }
-  
-    function getCurrentDate() {
-      const currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() + 2); // Add 2 days to the current date
-      const options = { month: 'long', day: 'numeric' };
-      return currentDate.toLocaleDateString('en-US', options);
-    }
-  
-    function hideContentIfNotUSA(countryCode) {
-      // Example: Hide the content for users from countries other than the USA
-      if (countryCode.toLowerCase() !== "us") {
-        // Hide the content
-        document.body.style.display = "none";
-      }
+  document.addEventListener("DOMContentLoaded", function () {
+    getReverseGeocode(); // Call the getReverseGeocode function to fetch the user's location
+  });
+
+  var result2 = document.getElementById("city");
+  var result3 = document.getElementById("city2");
+
+  function getReverseGeocode() {
+    fetch("https://api.bigdatacloud.net/data/reverse-geocode-client")
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+        result2.innerHTML = result.city || "Unknown";
+        result3.innerHTML = result.city || "Unknown";
+        document.getElementById("current-date").innerHTML = getCurrentDate();
+
+        // Call the hiding logic based on the fetched location
+        hideContentIfNotUSA(result.country.isoAlpha2);
+      })
+      .catch(error => {
+        console.log(error);
+        result2.innerHTML = "Failed to retrieve location";
+        result3.innerHTML = "Failed to retrieve location";
+        // Call the hiding logic with a fallback value
+        hideContentIfNotUSA("unknown");
+      });
+  }
+
+  function getCurrentDate() {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 2); // Add 2 days to the current date
+    const options = { month: 'long', day: 'numeric' };
+    return currentDate.toLocaleDateString('en-US', options);
+  }
+
+  function hideContentIfNotUSA(countryCode) {
+    // Example: Hide the content for users from countries other than the USA
+    if (countryCode.toLowerCase() !== "us") {
+      // Hide the content
+      document.body.innerHTML = "<h1>Error - Content Unavailable</h1><p>We're sorry, but the content on this page is only available in the United States.</p>";
+    } else {
       // Continue displaying the content for users from the USA
+      document.body.style.display = "block";
     }
-  </script>
+  }
+</script>
 </body>
 </html>
