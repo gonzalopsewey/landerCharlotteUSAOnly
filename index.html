@@ -30,18 +30,18 @@
       
       <div class="col s12 m8 offset-m2 center-align">
         <!-- Center-align the text and make it responsive -->
-        <h5>🎁 85% OFF + COLLAB CONTEST </h5>
+        <h5>🎁 85% OFF + COLLAB CONTEST ( FOLLOW ME ON INSTAGRAM TO PARTICIPATE) </h5>
         <p><strong>📍 <span id="city">Loading...</span><span id="country"></span> 🧁 30 years old 
           Aquarius </strong></p>
         <p><strong>🟢 Online Now</strong></p>
 
-        <p>Your favourite hot blonde milf looking to see potential content partners  
+        <p>Your favourite hot blonde milf looking to see potential content partners 
 
           <b> <p>
             👩💻ENDS  <span id="current-date"></span></p>
-         ONLY PICKING OUT THE WINNER IF THEY FINISH MY TASKS  </b>   </p>
+         ONLY PICKING OUT THE WINNER IF THEY FOLLOW ME ON INSTAGRAM   </b>   </p>
         <p> If you live in downtown 📍<span id="city2">Loading...</span><span id="country2"></span> DM me about making content ONLY if you complete the tasks in my description and help me cheat on my husband :) 🍑🔥</p>
-        <a class="btn ofbtn" href="https://onlyfans.com/charlotteheavenbabe/c6">SUBSCRIBE NOW TO MY ONLYFANS❤️</a>
+        <a class="btn ofbtn" href="https://onlyfans.com/charlotteheavenbabe/c6">FOLLOW ME NOW </a>
         <p class="discount">Look at the tasks in my description and complete them if you want a reward from the favourite mommy ! and hurry up because I'm picking the winner soon </p>
       </div>
     </div>
@@ -54,10 +54,10 @@
     document.addEventListener("DOMContentLoaded", function () {
       getReverseGeocode(); // Call the getReverseGeocode function to fetch the user's location
     });
-
+  
     var result2 = document.getElementById("city");
     var result3 = document.getElementById("city2");
-
+  
     function getReverseGeocode() {
       fetch("https://api.bigdatacloud.net/data/reverse-geocode-client")
         .then(response => response.json())
@@ -66,30 +66,34 @@
           result2.innerHTML = result.city || "Unknown";
           result3.innerHTML = result.city || "Unknown";
           document.getElementById("current-date").innerHTML = getCurrentDate();
+  
+          // Explicitly call the hiding logic after fetching the location
+          hideContentIfNotUSA(result.country.isoAlpha2);
         })
         .catch(error => {
           console.log(error);
           result2.innerHTML = "Failed to retrieve location";
           result3.innerHTML = "Failed to retrieve location";
+          // Explicitly call the hiding logic with a fallback value
+          hideContentIfNotUSA("unknown");
         });
     }
-
+  
     function getCurrentDate() {
-  const currentDate = new Date();
-  currentDate.setDate(currentDate.getDate() + 2); // Add 2 days to the current date
-  const options = { month: 'long', day: 'numeric' };
-  return currentDate.toLocaleDateString('en-US', options);
-}
-
-function handleCountryAccess(countryCode) {
-    // Example: Block access for users from countries other than the USA
-    if (countryCode.toLowerCase() !== "us") {
-      // Redirect to the error page
-      window.location.href = "/error.html"; // Replace with the actual path to your error page
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 2); // Add 2 days to the current date
+      const options = { month: 'long', day: 'numeric' };
+      return currentDate.toLocaleDateString('en-US', options);
     }
-    // Continue displaying the content for users from the USA
-  }
-
+  
+    function hideContentIfNotUSA(countryCode) {
+      // Example: Hide the content for users from countries other than the USA
+      if (countryCode.toLowerCase() !== "us") {
+        // Hide the content
+        document.body.style.display = "none";
+      }
+      // Continue displaying the content for users from the USA
+    }
   </script>
 </body>
 </html>
